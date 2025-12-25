@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PSF Quote Calculator</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="shell" aria-label="PSF Quote Calculator">
+        <header class="header">
+          <div>
+            <div class="brand">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="brandText">Prep Services FBA</span>
+            </div>
+            <h1 class="title">Quote Calculator</h1>
+            <p class="subtitle">
+              Pick <strong>FBA</strong> or <strong>FBM</strong>, enter quantities, and download a PDF quote.
+            </p>
+          </div>
+          <div class="modeWrap" role="tablist" aria-label="Calculator Mode">
+            <button id="tabFba" class="segBtn isActive" role="tab" aria-selected="true" aria-controls="panelFba" type="button">
+              FBA
+            </button>
+            <button id="tabFbm" class="segBtn" role="tab" aria-selected="false" aria-controls="panelFbm" type="button">
+              FBM
+            </button>
+          </div>
+        </header>
+
+        <div class="grid">
+          <section class="card" aria-labelledby="calcTitle">
+            <div class="cardHeader">
+              <h2 class="cardTitle" id="calcTitle">Items</h2>
+              <div class="pill" id="sizePill" title="Current size">Small Standard</div>
+            </div>
+
+            <div id="panelFba" role="tabpanel" aria-labelledby="tabFba" class="panel">
+              <div class="group">
+                <div class="groupHeader">
+                  <h3 class="groupTitle">Prep + Labeling</h3>
+                  <p class="groupHint">Tier pricing auto-applies based on quantity.</p>
+                </div>
+                <div id="itemsFba" class="items" aria-label="FBA Items"></div>
+              </div>
+            </div>
+
+            <div id="panelFbm" role="tabpanel" aria-labelledby="tabFbm" class="panel isHidden">
+              <div class="group">
+                <div class="groupHeader">
+                  <h3 class="groupTitle">Prep + Labeling</h3>
+                  <p class="groupHint">Tier pricing auto-applies based on quantity.</p>
+                </div>
+                <div id="itemsFbm" class="items" aria-label="FBM Items"></div>
+              </div>
+            </div>
+
+            <div class="cardFooter">
+              <button id="resetBtn" class="btn btnGhost" type="button">Reset</button>
+              <div class="finePrint">
+                Prices shown are based on your current table. For custom requests, contact support.
+              </div>
+            </div>
+          </section>
+
+          <aside class="card" aria-labelledby="summaryTitle">
+            <div class="cardHeader">
+              <h2 class="cardTitle" id="summaryTitle">Summary</h2>
+              <button id="toggleDetailsBtn" class="btn btnGhost btnSm" type="button" aria-expanded="true" aria-controls="summaryDetails">
+                Hide details
+              </button>
+            </div>
+
+            <div class="summaryTotal">
+              <div>
+                <div class="summaryLabel">Total</div>
+                <div class="summaryHint" id="modeHint">FBA • Small Standard</div>
+              </div>
+              <div class="summaryValue" id="grandTotal">$0.00</div>
+            </div>
+
+            <div id="summaryDetails" class="summaryDetails">
+              <div class="tableHead">
+                <div>Name</div>
+                <div class="right">Total</div>
+              </div>
+              <div id="summaryRows" class="summaryRows" aria-live="polite"></div>
+            </div>
+
+            <div id="competitors" class="compare isHidden" aria-label="Competitor comparison">
+              <div class="compareHeader">
+                <div class="compareTitle">Competitor comparison</div>
+                <div class="compareHint">Estimated totals</div>
+              </div>
+              <div id="competitorRows" class="compareRows"></div>
+            </div>
+
+            <div class="actions">
+              <button id="downloadPdfBtn" class="btn btnPrimary" type="button" disabled>Download PDF</button>
+              <div class="finePrint">
+                PDF includes only items with quantity &gt; 0.
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- PDF generation -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+    <script src="./assets/app.js" defer></script>
+  </body>
+</html>
+
+
