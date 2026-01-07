@@ -89,18 +89,23 @@
               <div id="summaryRows" class="summaryRows" aria-live="polite"></div>
             </div>
 
-            <div id="competitors" class="compare isHidden" aria-label="Competitor comparison">
-              <div class="compareHeader">
-                <div class="compareTitle">Competitor comparison</div>
-                <div class="compareHint">Estimated totals</div>
-              </div>
-              <div id="competitorRows" class="compareRows"></div>
-            </div>
-
             <div class="actions">
               <button id="downloadPdfBtn" class="btn btnPrimary" type="button" disabled>Download PDF</button>
               <div class="finePrint">
                 PDF includes only items with quantity &gt; 0.
+              </div>
+            </div>
+          </aside>
+
+          <aside class="card" id="competitors" aria-labelledby="compareTitle">
+            <div class="cardHeader">
+              <h2 class="cardTitle" id="compareTitle">Comparison</h2>
+              <div class="compareHint">Estimated Totals</div>
+            </div>
+            <div id="competitorRows" class="compareRows"></div>
+            <div class="cardFooter">
+              <div class="finePrint">
+                Savings compared to competitors based on current quantities.
               </div>
             </div>
           </aside>

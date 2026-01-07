@@ -1,0 +1,210 @@
+<!-- PSF Quote Calculator - WordPress Compatible Code -->
+<!-- Copy and paste this entire code into a WordPress Custom HTML block -->
+<div id="psf-calculator-wrapper" style="max-width:1100px;margin:0 auto;padding:20px 0">
+<style>
+#psf-calculator-wrapper{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#000;background:#f8f8f8;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+#psf-calculator-wrapper *{box-sizing:border-box}
+#psf-calculator-wrapper .page{padding:40px 20px 60px}
+#psf-calculator-wrapper .shell{max-width:1100px;margin:0 auto}
+#psf-calculator-wrapper .header{display:flex;gap:24px;justify-content:space-between;align-items:flex-start;margin-bottom:40px}
+#psf-calculator-wrapper .brand{display:inline-flex;align-items:center;gap:10px;color:#666;font-size:13px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
+#psf-calculator-wrapper .dot{width:8px;height:8px;border-radius:50%;background:#ff6b35}
+#psf-calculator-wrapper .title{margin:12px 0 8px;font-size:clamp(32px,5vw,48px);line-height:1.1;letter-spacing:-0.04em;font-weight:900;color:#000}
+#psf-calculator-wrapper .subtitle{margin:0;color:#666;max-width:60ch;font-size:16px;line-height:1.5;font-weight:400}
+#psf-calculator-wrapper .modeWrap{display:inline-flex;background:#f0f0f0;border:2px solid #e5e5e5;border-radius:10px;padding:4px;gap:4px}
+#psf-calculator-wrapper .segBtn{border:0;background:transparent;color:#666;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:700;font-size:14px;letter-spacing:0.3px;transition:all 0.2s ease}
+#psf-calculator-wrapper .segBtn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,107,53,0.15)}
+#psf-calculator-wrapper .segBtn.isActive{color:#fff;background:#ff6b35;box-shadow:0 2px 8px rgba(255,107,53,0.3)}
+#psf-calculator-wrapper .segBtn:hover:not(.isActive){color:#000;background:#e8e8e8}
+#psf-calculator-wrapper .grid{display:grid;grid-template-columns:1.4fr 0.9fr 0.9fr;gap:24px;align-items:start}
+#psf-calculator-wrapper .card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden}
+#psf-calculator-wrapper .cardHeader{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #e5e5e5;background:#fafafa}
+#psf-calculator-wrapper .cardTitle{margin:0;font-size:18px;font-weight:800;letter-spacing:-0.02em;color:#000}
+#psf-calculator-wrapper #compareTitle{color:#000}
+#psf-calculator-wrapper .pill{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:11px;padding:6px 12px;border-radius:6px;color:#666;background:#f5f5f5;border:1px solid #e5e5e5;font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
+#psf-calculator-wrapper .panel{padding:20px 24px}
+#psf-calculator-wrapper .panel.isHidden{display:none}
+#psf-calculator-wrapper .group{padding:16px;border-radius:8px;background:#fafafa;border:1px solid #e5e5e5}
+#psf-calculator-wrapper .groupHeader{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:0 0 12px}
+#psf-calculator-wrapper .groupTitle{margin:0;font-size:14px;color:#000;font-weight:700;letter-spacing:-0.01em}
+#psf-calculator-wrapper .groupHint{margin:0;font-size:12px;color:#999}
+#psf-calculator-wrapper .items{display:grid;gap:12px}
+#psf-calculator-wrapper .itemRow{display:grid;grid-template-columns:1.2fr 1.2fr;gap:16px;align-items:center;padding:16px;border-radius:8px;background:#fff;border:1px solid #e5e5e5;transition:all 0.2s ease}
+#psf-calculator-wrapper .itemRow:hover{border-color:#ff6b35;box-shadow:0 2px 12px rgba(255,107,53,0.1)}
+#psf-calculator-wrapper .itemMain{min-width:0}
+#psf-calculator-wrapper .itemName{display:flex;gap:8px;align-items:baseline;font-weight:700;font-size:15px;line-height:1.3;letter-spacing:-0.01em;color:#000}
+#psf-calculator-wrapper .badge{font-size:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;padding:4px 10px;border-radius:6px;border:1px solid #e5e5e5;background:rgba(255,107,53,0.08);color:#ff6b35;flex:none;font-weight:700;letter-spacing:0.5px;text-transform:uppercase}
+#psf-calculator-wrapper .itemMeta{margin-top:6px;font-size:13px;color:#666;display:flex;gap:12px;flex-wrap:wrap}
+#psf-calculator-wrapper .metaStrong{color:#000;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:13px;font-weight:700;letter-spacing:0.2px}
+#psf-calculator-wrapper .sliderWrap{display:grid;gap:8px}
+#psf-calculator-wrapper .qtyControls{display:flex;align-items:center;gap:12px}
+#psf-calculator-wrapper .qtyBtn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:2px solid #e5e5e5;background:#fff;color:#000;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s ease;flex-shrink:0;user-select:none}
+#psf-calculator-wrapper .qtyBtn:hover:not(:disabled){background:#ff6b35;color:#fff;border-color:#ff6b35;box-shadow:0 2px 8px rgba(255,107,53,0.3)}
+#psf-calculator-wrapper .qtyBtn:active:not(:disabled){transform:scale(0.95)}
+#psf-calculator-wrapper .qtyBtn:disabled{opacity:0.4;cursor:not-allowed}
+#psf-calculator-wrapper .qtySlider{flex:1;min-width:0}
+#psf-calculator-wrapper input[type="range"]{width:100%;height:6px;cursor:pointer;-webkit-appearance:none;appearance:none;background:transparent}
+#psf-calculator-wrapper input[type="range"]::-webkit-slider-runnable-track{height:6px;background:#e5e5e5;border-radius:3px}
+#psf-calculator-wrapper input[type="range"]::-moz-range-track{height:6px;background:#e5e5e5;border-radius:3px;border:none}
+#psf-calculator-wrapper input[type="range"]::-webkit-slider-thumb{width:18px;height:18px;background:#ff6b35;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:grab;transition:all 0.2s ease;-webkit-appearance:none;margin-top:-6px}
+#psf-calculator-wrapper input[type="range"]::-moz-range-thumb{width:18px;height:18px;background:#ff6b35;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:grab;transition:all 0.2s ease;-moz-appearance:none;border:none}
+#psf-calculator-wrapper input[type="range"]:hover::-webkit-slider-thumb{background:#e55a2b;box-shadow:0 3px 10px rgba(255,107,53,0.4);transform:scale(1.1)}
+#psf-calculator-wrapper input[type="range"]:hover::-moz-range-thumb{background:#e55a2b;box-shadow:0 3px 10px rgba(255,107,53,0.4);transform:scale(1.1)}
+#psf-calculator-wrapper input[type="range"]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.15)}
+#psf-calculator-wrapper input[type="range"]:active::-moz-range-thumb{cursor:grabbing;transform:scale(1.15)}
+#psf-calculator-wrapper .marks{display:flex;justify-content:space-between;font-size:11px;color:#666;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;pointer-events:none;position:relative;z-index:0;font-weight:600;margin-top:6px;letter-spacing:0.2px}
+#psf-calculator-wrapper .money{text-align:right;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-weight:800;font-size:15px;color:#000}
+#psf-calculator-wrapper .warn{color:#ff9800;font-weight:600}
+#psf-calculator-wrapper .cardFooter{padding:16px 24px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #e5e5e5;background:#fafafa}
+#psf-calculator-wrapper .btn{border:0;border-radius:8px;padding:12px 24px;cursor:pointer;font-weight:700;letter-spacing:0.3px;font-size:14px;transition:all 0.2s ease;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+#psf-calculator-wrapper .btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,107,53,0.15)}
+#psf-calculator-wrapper .btnSm{padding:8px 16px;border-radius:8px;font-size:12px}
+#psf-calculator-wrapper .btnPrimary{background:#ff6b35;color:#fff;box-shadow:0 2px 8px rgba(255,107,53,0.25)}
+#psf-calculator-wrapper .btnPrimary:hover:not(:disabled){background:#e55a2b;box-shadow:0 4px 12px rgba(255,107,53,0.35);transform:translateY(-1px)}
+#psf-calculator-wrapper .btnPrimary:active:not(:disabled){transform:translateY(0);box-shadow:0 2px 6px rgba(255,107,53,0.3)}
+#psf-calculator-wrapper .btnPrimary:disabled{opacity:0.5;cursor:not-allowed}
+#psf-calculator-wrapper .btnGhost{background:#f5f5f5;border:1px solid #e5e5e5;color:#000}
+#psf-calculator-wrapper .btnGhost:hover{background:#e8e8e8;border-color:#666}
+#psf-calculator-wrapper .finePrint{color:#999;font-size:12px;line-height:1.5}
+#psf-calculator-wrapper .summaryTotal{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:24px 24px 20px;background:#fafafa;border-bottom:2px solid #e5e5e5}
+#psf-calculator-wrapper .summaryLabel{color:#666;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.5px}
+#psf-calculator-wrapper .summaryHint{color:#999;font-size:12px;margin-top:4px;font-weight:400}
+#psf-calculator-wrapper .summaryValue{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:32px;font-weight:900;letter-spacing:-0.02em;color:#22c55e}
+#psf-calculator-wrapper .summaryDetails{padding:0 24px 16px}
+#psf-calculator-wrapper .tableHead{display:grid;grid-template-columns:1fr 120px;gap:10px;font-size:12px;color:#666;font-weight:700;padding:16px 0 12px;border-top:1px solid #e5e5e5;text-transform:uppercase;letter-spacing:0.5px}
+#psf-calculator-wrapper .summaryRows{display:grid;gap:8px;padding-bottom:8px}
+#psf-calculator-wrapper .sumRow{display:grid;grid-template-columns:1fr 120px;gap:10px;padding:12px 16px;border-radius:8px;background:#fafafa;border:1px solid #e5e5e5;transition:all 0.2s ease}
+#psf-calculator-wrapper .sumRow:hover{background:#f5f5f5;border-color:#ff6b35}
+#psf-calculator-wrapper .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#psf-calculator-wrapper .sumName{min-width:0}
+#psf-calculator-wrapper .sumTop{font-size:14px;font-weight:700;letter-spacing:-0.01em;line-height:1.3;color:#000}
+#psf-calculator-wrapper .sumBottom{margin-top:4px;font-size:12px;color:#666;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+#psf-calculator-wrapper .right{text-align:right}
+#psf-calculator-wrapper .actions{padding:16px 24px 20px;border-top:1px solid #e5e5e5;display:grid;gap:12px;background:#fafafa}
+#psf-calculator-wrapper #competitors{background:#fee2e2;border-color:#ef4444}
+#psf-calculator-wrapper #competitors.isHidden{display:none}
+#psf-calculator-wrapper .compareHint{color:#999;font-size:11px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;padding:0 24px 12px}
+#psf-calculator-wrapper .compareRows{display:grid;gap:12px;padding:20px 24px}
+#psf-calculator-wrapper .compareRow{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:8px;background:#fafafa;border:1px solid #e5e5e5;transition:all 0.2s ease}
+#psf-calculator-wrapper .compareRow:hover{background:#f5f5f5;border-color:#ff6b35}
+#psf-calculator-wrapper .compareName{font-weight:700;font-size:14px;line-height:1.3;color:#000}
+#psf-calculator-wrapper .compareSub{margin-top:2px;color:#666;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;line-height:1.4}
+#psf-calculator-wrapper .saveChip{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:8px 14px;border-radius:8px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:11px;font-weight:700;background:rgba(255,107,53,0.08);border:1px solid #ff6b35;color:#ff6b35;margin-top:6px;text-align:center;letter-spacing:0.3px;transition:all 0.2s ease}
+#psf-calculator-wrapper .saveChip:hover{background:#ff6b35;color:#fff;transform:translateY(-1px);box-shadow:0 2px 8px rgba(255,107,53,0.25)}
+@media (max-width:980px){#psf-calculator-wrapper .grid{grid-template-columns:1fr}}
+@media (max-width:720px){#psf-calculator-wrapper .header{flex-direction:column;align-items:stretch;gap:20px}#psf-calculator-wrapper .itemRow{grid-template-columns:1fr;gap:12px}#psf-calculator-wrapper .money{text-align:left}#psf-calculator-wrapper .tableHead,#psf-calculator-wrapper .sumRow{grid-template-columns:1fr 100px}#psf-calculator-wrapper .page{padding:24px 16px 40px}}
+</style>
+<main class="page">
+<section class="shell" aria-label="PSF Quote Calculator">
+<header class="header">
+<div>
+<div class="brand"><span class="dot" aria-hidden="true"></span><span class="brandText">Prep Services FBA</span></div>
+<h1 class="title">Quote Calculator</h1>
+<p class="subtitle">Pick <strong>FBA</strong> or <strong>FBM</strong>, enter quantities, and download a PDF quote.</p>
+</div>
+<div class="modeWrap" role="tablist" aria-label="Calculator Mode">
+<button id="tabFba" class="segBtn isActive" role="tab" aria-selected="true" aria-controls="panelFba" type="button">FBA</button>
+<button id="tabFbm" class="segBtn" role="tab" aria-selected="false" aria-controls="panelFbm" type="button">FBM</button>
+</div>
+</header>
+<div class="grid">
+<section class="card" aria-labelledby="calcTitle">
+<div class="cardHeader">
+<h2 class="cardTitle" id="calcTitle">Items</h2>
+<div class="pill" id="sizePill" title="Current size">Small Standard</div>
+</div>
+<div id="panelFba" role="tabpanel" aria-labelledby="tabFba" class="panel">
+<div class="group">
+<div class="groupHeader">
+<h3 class="groupTitle">Prep + Labeling</h3>
+<p class="groupHint">Tier pricing auto-applies based on quantity.</p>
+</div>
+<div id="itemsFba" class="items" aria-label="FBA Items"></div>
+</div>
+</div>
+<div id="panelFbm" role="tabpanel" aria-labelledby="tabFbm" class="panel isHidden">
+<div class="group">
+<div class="groupHeader">
+<h3 class="groupTitle">Prep + Labeling</h3>
+<p class="groupHint">Tier pricing auto-applies based on quantity.</p>
+</div>
+<div id="itemsFbm" class="items" aria-label="FBM Items"></div>
+</div>
+</div>
+<div class="cardFooter">
+<button id="resetBtn" class="btn btnGhost" type="button">Reset</button>
+<div class="finePrint">Prices shown are based on your current table. For custom requests, contact support.</div>
+</div>
+</section>
+<aside class="card" aria-labelledby="summaryTitle">
+<div class="cardHeader">
+<h2 class="cardTitle" id="summaryTitle">Summary</h2>
+<button id="toggleDetailsBtn" class="btn btnGhost btnSm" type="button" aria-expanded="true" aria-controls="summaryDetails">Hide details</button>
+</div>
+<div class="summaryTotal">
+<div>
+<div class="summaryLabel">Total</div>
+<div class="summaryHint" id="modeHint">FBA • Small Standard</div>
+</div>
+<div class="summaryValue" id="grandTotal">$0.00</div>
+</div>
+<div id="summaryDetails" class="summaryDetails">
+<div class="tableHead">
+<div>Name</div>
+<div class="right">Total</div>
+</div>
+<div id="summaryRows" class="summaryRows" aria-live="polite"></div>
+</div>
+<div class="actions">
+<button id="downloadPdfBtn" class="btn btnPrimary" type="button" disabled>Download PDF</button>
+<div class="finePrint">PDF includes only items with quantity &gt; 0.</div>
+</div>
+</aside>
+<aside class="card" id="competitors" aria-labelledby="compareTitle">
+<div class="cardHeader">
+<h2 class="cardTitle" id="compareTitle">Comparison</h2>
+<div class="compareHint">Estimated totals</div>
+</div>
+<div id="competitorRows" class="compareRows"></div>
+<div class="cardFooter">
+<div class="finePrint">Savings compared to competitors based on current quantities.</div>
+</div>
+</aside>
+</div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script>
+(function(){
+'use strict';
+var wrapper=document.getElementById('psf-calculator-wrapper');
+if(!wrapper)return;
+var $=function(s){var el=wrapper.querySelector(s);return el||null};
+var SERVICES=[{id:"fba_single_unit",name:"Single Unit",unit:"unit",mode:"FBA",kind:"tiered",tiers:[{min:0,max:50,price:0.99,label:"0–50"},{min:51,max:500,price:0.84,label:"51–500"},{min:501,max:1000,price:0.6,label:"501–1000"},{min:1001,price:0.49,label:"1001+"}],slider:{min:0,max:1000,step:1,marks:[0,1000]},note:"Includes Receiving, FNSKU, Box Label, Forwarding (Small Standard)."},{id:"fba_number_of_packs",name:"Number of Packs",unit:"pack",mode:"FBA",kind:"tiered",tiers:[{min:0,max:0,price:0,label:"0"},{min:1,max:1,price:0,label:"1"},{min:2,max:3,price:0.25,label:"2–3"},{min:4,max:5,price:0.50,label:"4–5"},{min:6,max:7,price:1.25,label:"6–7"},{min:8,max:9,price:1.50,label:"8–9"},{min:10,max:11,price:2.50,label:"10–11"},{min:12,price:2.50,label:"12+"}],slider:{min:0,max:12,step:1,marks:[0,12]}},{id:"fba_bubble_wrap",name:"Bubble Wrap",unit:"ft",mode:"FBA",kind:"flat",price:0.35,slider:{min:0,max:1000,step:1,marks:[0,1000]}},{id:"fba_monthly_storage_unit",name:"Monthly Storage",unit:"unit",mode:"FBA",kind:"flat",price:0.35,slider:{min:0,max:5000,step:1,marks:[0,5000]}},{id:"fba_monthly_storage_pallet",name:"Monthly Storage",unit:"pallet",mode:"FBA",kind:"flat",price:40,slider:{min:0,max:50,step:1,marks:[0,50]}},{id:"fba_sticker_removal",name:"Sticker Removal",unit:"unit",mode:"FBA",kind:"flat",price:0.15,slider:{min:0,max:1000,step:1,marks:[0,1000]}},{id:"fba_warning_label",name:"Warning Label",unit:"label",mode:"FBA",kind:"flat",price:0.15,slider:{min:0,max:1000,step:1,marks:[0,1000]}},{id:"fbm_single_unit",name:"Single Unit",unit:"unit",mode:"FBM",kind:"tiered",tiers:[{min:0,max:15,price:2.25,label:"0–15"},{min:16,max:25,price:2.00,label:"16–25"},{min:26,max:50,price:1.75,label:"26–50"},{min:51,price:1.65,label:"51+"}],slider:{min:0,max:100,step:1,marks:[0,100]},note:"Small Standard (FBM)."},{id:"fbm_number_of_packs",name:"Number of Packs",unit:"pack",mode:"FBM",kind:"tiered",tiers:[{min:0,max:0,price:0,label:"0"},{min:1,max:1,price:0,label:"1"},{min:2,max:3,price:0.25,label:"2–3"},{min:4,max:5,price:0.50,label:"4–5"},{min:6,max:7,price:1.25,label:"6–7"},{min:8,max:9,price:1.50,label:"8–9"},{min:10,max:11,price:2.50,label:"10–11"},{min:12,price:2.50,label:"12+"}],slider:{min:0,max:12,step:1,marks:[0,12]}},{id:"fbm_monthly_storage_pallet",name:"Monthly Storage",unit:"pallet",mode:"FBM",kind:"flat",price:40,slider:{min:0,max:50,step:1,marks:[0,50]}},{id:"fbm_storage_per_unit",name:"Storage per unit",unit:"unit",mode:"FBM",kind:"flat",price:0.35,slider:{min:0,max:5000,step:1,marks:[0,5000]}},{id:"fbm_pallet_handling",name:"Pallet Handling",unit:"pallet",mode:"FBM",kind:"flat",price:45,slider:{min:0,max:50,step:1,marks:[0,50]}},{id:"fbm_sticker_removal",name:"Sticker Removal",unit:"unit",mode:"FBM",kind:"flat",price:0.15,slider:{min:0,max:1000,step:1,marks:[0,1000]}},{id:"fbm_warning_label",name:"Warning Label",unit:"label",mode:"FBM",kind:"flat",price:0.15,slider:{min:0,max:1000,step:1,marks:[0,1000]}}];
+var DEFAULT_MODE="FBA";
+var COMPETITORS=[{key:"shiphype",name:"ShipHype",multiplier:1.25},{key:"instant_fulfillment",name:"Instant Fulfillment",multiplier:1.2},{key:"prepcenterla",name:"PrepCenterLA",multiplier:1.3}];
+var state={mode:DEFAULT_MODE,qty:{},detailsOpen:true};
+SERVICES.forEach(function(s){state.qty[s.id]=s.slider&&s.slider.min!==undefined?s.slider.min:0});
+function clampInt(n,min,max){var x=Number.isFinite(n)?Math.round(n):0;return Math.min(max,Math.max(min,x))}
+function formatMoney(n){return "$"+n.toFixed(2)}
+function getTierForQty(tiers,qty){for(var i=0;i<tiers.length;i++){var t=tiers[i];var maxOk=typeof t.max==="number"?qty<=t.max:true;if(qty>=t.min&&maxOk)return t}return null}
+function computeLine(service,qty){var unitPrice=0,tierLabel="",warning="",isNumberOfPacks=service.id==="fba_number_of_packs"||service.id==="fbm_number_of_packs";if(service.kind==="flat"){unitPrice=service.price||0}else if(service.kind==="progressive"){if(qty>0){var increment=service.increment||0.25;unitPrice=qty===1?0:increment*(qty-1);tierLabel=qty+" pack"+(qty>1?"s":"")}else{unitPrice=0}}else{var t=getTierForQty(service.tiers||[],qty);if(!t){if(service.mode==="FBA"&&qty>0&&qty<50&&!isNumberOfPacks){var firstTier=service.tiers&&service.tiers[0];if(firstTier){unitPrice=firstTier.price;tierLabel=firstTier.label;warning="Below minimum (50+)"}else{unitPrice=0;tierLabel="Not in tier";warning="Below minimum (50+)"}}else{unitPrice=0;tierLabel="Not in tier";warning=""}}else{unitPrice=t.price;tierLabel=t.label;if(service.mode==="FBA"&&qty>0&&qty<50&&!isNumberOfPacks)warning="Below minimum (50+)"}}}var subtotal=0;if(isNumberOfPacks&&qty>0){var singleUnitId=service.mode==="FBA"?"fba_single_unit":"fbm_single_unit";var singleUnitQty=Math.round(state.qty[singleUnitId]||0);if(singleUnitQty>0){var numberOfCompletePacks=Math.floor(singleUnitQty/qty);var t=getTierForQty(service.tiers||[],qty);var pricePerPack=t?t.price:0;subtotal=numberOfCompletePacks*pricePerPack}else{subtotal=0}}else if(service.kind==="progressive"&&qty>0){var increment=service.increment||0.25;subtotal=increment*(qty-1)*qty/2}else{subtotal=qty*unitPrice}return{unitPrice:unitPrice,tierLabel:tierLabel,subtotal:subtotal,warning:warning}}
+function currentServices(){return SERVICES.filter(function(s){return s.mode===state.mode})}
+function setMode(mode){state.mode=mode;var tabFba=$("#tabFba"),tabFbm=$("#tabFbm"),panelFba=$("#panelFba"),panelFbm=$("#panelFbm"),modeHint=$("#modeHint");if(tabFba){tabFba.classList.toggle("isActive",mode==="FBA");tabFba.setAttribute("aria-selected",String(mode==="FBA"))}if(tabFbm){tabFbm.classList.toggle("isActive",mode==="FBM");tabFbm.setAttribute("aria-selected",String(mode==="FBM"))}if(panelFba)panelFba.classList.toggle("isHidden",mode!=="FBA");if(panelFbm)panelFbm.classList.toggle("isHidden",mode!=="FBM");if(modeHint)modeHint.textContent=mode+" • Small Standard";renderAll()}
+function escapeHtml(str){return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function renderItem(service){var qty=state.qty[service.id];if(typeof qty!=="number"||!Number.isFinite(qty)){qty=service.slider&&service.slider.min!==undefined?service.slider.min:0;state.qty[service.id]=qty}qty=Math.round(qty);var result=computeLine(service,qty);var unitPrice=result.unitPrice,tierLabel=result.tierLabel,subtotal=result.subtotal,warning=result.warning;var displayUnitPrice=unitPrice,priceText="";if(service.kind==="tiered"){var tierBase=service.tiers&&service.tiers[0]?service.tiers[0].price:0;displayUnitPrice=qty===0?tierBase:unitPrice;priceText=qty===0?"From "+formatMoney(displayUnitPrice)+"/"+service.unit:formatMoney(displayUnitPrice)+"/"+service.unit}else if(service.kind==="progressive"){var increment=service.increment||0.25;if(qty===0){priceText="From $0.00/"+service.unit}else if(qty===1){priceText="$0.00/"+service.unit}else{priceText=formatMoney(unitPrice)+"/"+service.unit}}else{priceText=formatMoney(displayUnitPrice)+"/"+service.unit}var slider=service.slider||{min:0,max:1000,step:1};var sliderMin=slider.min,sliderMax=slider.max,sliderStep=slider.step||1,sliderValue=clampInt(qty,sliderMin,sliderMax),marks=slider.marks||[];var row=document.createElement("div");row.className="itemRow";row.dataset.serviceId=service.id;var marksHtml=marks.length>0?"<div class=\"marks\" aria-hidden=\"true\">"+marks.map(function(m){return "<span>"+m+"</span>"}).join("")+"</div>":"";row.innerHTML="<div class=\"itemMain\"><div class=\"itemName\"><span class=\"truncate\">"+escapeHtml(service.name)+"</span></div><div class=\"itemMeta\"><span class=\"metaStrong\">"+escapeHtml(priceText)+"</span>"+(service.kind==="tiered"?"<span>Tier: <span class=\"metaStrong\">"+escapeHtml(qty===0?"-":tierLabel||"-")+"</span></span>":"")+(warning?"<span class=\"warn\">"+escapeHtml(warning)+"</span>":"")+"</div></div><div class=\"sliderWrap\" aria-label=\""+escapeHtml(service.name)+" slider\"><div class=\"qtyControls\"><button type=\"button\" class=\"qtyBtn\" data-role=\"qty-decrease\" data-service-id=\""+escapeHtml(service.id)+"\" aria-label=\"Decrease "+escapeHtml(service.name)+" quantity\" "+(qty<=sliderMin?"disabled":"")+">−</button><div class=\"qtySlider\"><input type=\"range\" min=\""+sliderMin+"\" max=\""+sliderMax+"\" step=\""+sliderStep+"\" value=\""+sliderValue+"\" data-role=\"slider\" data-service-id=\""+escapeHtml(service.id)+"\" aria-label=\""+escapeHtml(service.name)+" quantity\"/></div><button type=\"button\" class=\"qtyBtn\" data-role=\"qty-increase\" data-service-id=\""+escapeHtml(service.id)+"\" aria-label=\"Increase "+escapeHtml(service.name)+" quantity\" "+(qty>=sliderMax?"disabled":"")+">+</button></div>"+marksHtml+"</div>";var sliderEl=row.querySelector('[data-role="slider"]'),decreaseBtn=row.querySelector('[data-role="qty-decrease"]'),increaseBtn=row.querySelector('[data-role="qty-increase"]');if(sliderEl){sliderEl.addEventListener("input",function(e){e.stopPropagation();var rawValue=Number(e.target.value);if(!Number.isFinite(rawValue))rawValue=sliderValue;var actualQty=clampInt(Math.round(rawValue),sliderMin,sliderMax);state.qty[service.id]=actualQty;if(decreaseBtn)decreaseBtn.disabled=actualQty<=sliderMin;if(increaseBtn)increaseBtn.disabled=actualQty>=sliderMax;renderSummary()});sliderEl.addEventListener("change",function(e){e.stopPropagation();var rawValue=Number(e.target.value);if(!Number.isFinite(rawValue))rawValue=sliderValue;var actualQty=clampInt(Math.round(rawValue),sliderMin,sliderMax);state.qty[service.id]=actualQty;renderAll()})}if(decreaseBtn){decreaseBtn.addEventListener("click",function(e){e.stopPropagation();var currentQty=state.qty[service.id]!==undefined?state.qty[service.id]:sliderMin;currentQty=Math.max(sliderMin,currentQty-sliderStep);state.qty[service.id]=currentQty;renderAll()})}if(increaseBtn){increaseBtn.addEventListener("click",function(e){e.stopPropagation();var currentQty=state.qty[service.id]!==undefined?state.qty[service.id]:sliderMin;currentQty=Math.min(sliderMax,currentQty+sliderStep);state.qty[service.id]=currentQty;renderAll()})}return row}
+function renderItems(){var container=state.mode==="FBA"?$("#itemsFba"):$("#itemsFbm");if(!container)return;container.innerHTML="";var services=currentServices();for(var i=0;i<services.length;i++){var row=renderItem(services[i]);if(row)container.appendChild(row)}}
+function renderSummary(){var rowsEl=$("#summaryRows"),grandTotalEl=$("#grandTotal"),downloadPdfBtnEl=$("#downloadPdfBtn");if(!rowsEl)return;rowsEl.innerHTML="";var lines=[];var services=currentServices();for(var i=0;i<services.length;i++){var s=services[i];var qty=state.qty[s.id];if(typeof qty!=="number"||!Number.isFinite(qty))qty=0;qty=Math.round(qty);if(qty<=0)continue;var result=computeLine(s,qty);lines.push({s:s,qty:qty,unitPrice:result.unitPrice,tierLabel:result.tierLabel,subtotal:result.subtotal})}var grand=0;for(var i=0;i<lines.length;i++)grand+=lines[i].subtotal;if(grandTotalEl)grandTotalEl.textContent=formatMoney(grand);if(downloadPdfBtnEl)downloadPdfBtnEl.disabled=grand<=0;renderCompetitors(grand,lines);if(lines.length===0){var empty=document.createElement("div");empty.className="finePrint";empty.style.padding="10px 0";empty.textContent="Add quantities to see a breakdown.";rowsEl.appendChild(empty);return}for(var i=0;i<lines.length;i++){var l=lines[i];var row=document.createElement("div");row.className="sumRow";var detailText="";var isNumberOfPacks=l.s.id==="fba_number_of_packs"||l.s.id==="fbm_number_of_packs";if(isNumberOfPacks&&l.qty>0){var singleUnitId=l.s.mode==="FBA"?"fba_single_unit":"fbm_single_unit";var singleUnitQty=Math.round(state.qty[singleUnitId]||0);var selectedPackSize=l.qty;if(singleUnitQty>0){var numberOfCompletePacks=Math.floor(singleUnitQty/l.qty);var pricePerPack=l.unitPrice;detailText=numberOfCompletePacks+" packs (pack size: "+selectedPackSize+") × "+formatMoney(pricePerPack)+" = "+formatMoney(l.subtotal)}else{detailText="Pack size: "+selectedPackSize+" selected"}}else if(l.s.kind==="tiered"){detailText=l.qty+" × "+formatMoney(l.unitPrice)+" / "+escapeHtml(l.s.unit)+" • Tier "+(l.tierLabel||"-")}else if(l.s.kind==="progressive"){detailText=l.qty+" pack"+(l.qty>1?"s":"")}else{detailText=l.qty+" × "+formatMoney(l.unitPrice)+" / "+escapeHtml(l.s.unit)}row.innerHTML="<div class=\"sumName\"><div class=\"sumTop\">"+escapeHtml(l.s.name)+" <span class=\"badge\">"+escapeHtml(l.s.mode)+"</span></div><div class=\"sumBottom\">"+detailText+"</div></div><div class=\"right money\">"+formatMoney(l.subtotal)+"</div>";rowsEl.appendChild(row)}}
+function computeCompetitorTotal(multiplier,lines){var total=0;for(var i=0;i<lines.length;i++){var l=lines[i];total+=l.qty*l.unitPrice*multiplier}return total}
+function renderCompetitors(ourTotal,lines){var wrap=$("#competitors"),rows=$("#competitorRows");if(!wrap||!rows)return;if(!lines.length||ourTotal<=0){wrap.classList.add("isHidden");rows.innerHTML="";return}wrap.classList.remove("isHidden");rows.innerHTML="";for(var i=0;i<COMPETITORS.length;i++){var c=COMPETITORS[i];var competitorTotal=computeCompetitorTotal(c.multiplier,lines);var savings=Math.max(0,competitorTotal-ourTotal);var row=document.createElement("div");row.className="compareRow";row.innerHTML="<div class=\"compareName\">"+escapeHtml(c.name)+"</div><div class=\"compareSub\">"+formatMoney(competitorTotal)+"</div><div class=\"saveChip\">Save "+formatMoney(savings)+"</div>";rows.appendChild(row)}}
+function renderAll(){renderItems();renderSummary()}
+function toggleDetails(){state.detailsOpen=!state.detailsOpen;var detailsEl=$("#summaryDetails"),btnEl=$("#toggleDetailsBtn");if(detailsEl)detailsEl.style.display=state.detailsOpen?"block":"none";if(btnEl){btnEl.setAttribute("aria-expanded",String(state.detailsOpen));btnEl.textContent=state.detailsOpen?"Hide details":"Show details"}}
+function resetAll(){for(var i=0;i<SERVICES.length;i++){var s=SERVICES[i];state.qty[s.id]=s.slider&&s.slider.min!==undefined?s.slider.min:0}renderAll()}
+function buildPdfData(){var items=[];var services=currentServices();for(var i=0;i<services.length;i++){var s=services[i];var qty=state.qty[s.id]||0;if(qty<=0)continue;var result=computeLine(s,qty);var isNumberOfPacks=s.id==="fba_number_of_packs"||s.id==="fbm_number_of_packs";var displayQty=qty;if(isNumberOfPacks){var singleUnitId=s.mode==="FBA"?"fba_single_unit":"fbm_single_unit";var singleUnitQty=Math.round(state.qty[singleUnitId]||0);if(singleUnitQty>0)displayQty=Math.floor(singleUnitQty/qty)}items.push({name:s.name,qty:displayQty,unit:s.unit,unitPrice:result.unitPrice,tier:s.kind==="tiered"?result.tierLabel:"",subtotal:result.subtotal,warning:result.warning})}var total=0;for(var i=0;i<items.length;i++)total+=items[i].subtotal;return{items:items,total:total}}
+function downloadPdf(){var jsPDF=window.jspdf&&window.jspdf.jsPDF?window.jspdf.jsPDF:null;if(!jsPDF){alert("PDF library not loaded yet. Please try again in a moment.");return}var data=buildPdfData();if(!data.items.length)return;var doc=new jsPDF({unit:"pt",format:"a4"});var margin=48,pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),now=new Date(),dateStr=now.toLocaleString();doc.setFont("helvetica","bold");doc.setFontSize(16);doc.text("Prep Services FBA — Quote",margin,64);doc.setFont("helvetica","normal");doc.setFontSize(10);doc.text("Mode: "+state.mode+"  |  Size: Small Standard",margin,84);doc.text("Generated: "+dateStr,margin,98);var y=128;doc.setFont("helvetica","bold");doc.setFontSize(10);doc.text("Item",margin,y);doc.text("Qty",pageW-margin-220,y,{align:"right"});doc.text("Unit Price",pageW-margin-140,y,{align:"right"});doc.text("Subtotal",pageW-margin,y,{align:"right"});doc.setDrawColor(200);doc.setLineWidth(0.6);doc.line(margin,y+8,pageW-margin,y+8);y+=26;doc.setFont("helvetica","normal");var rowH=18;for(var i=0;i<data.items.length;i++){var it=data.items[i];if(y>pageH-margin-80){doc.addPage();y=margin}var leftText=it.tier?it.name+" (Tier "+it.tier+")":it.name;var unitPriceTxt="$"+it.unitPrice.toFixed(2)+" / "+it.unit;var subtotalTxt="$"+it.subtotal.toFixed(2);doc.text(leftText,margin,y);doc.text(String(it.qty),pageW-margin-220,y,{align:"right"});doc.text(unitPriceTxt,pageW-margin-140,y,{align:"right"});doc.text(subtotalTxt,pageW-margin,y,{align:"right"});y+=rowH;if(it.warning){doc.setTextColor(180,60,60);doc.setFontSize(9);doc.text("Note: "+it.warning,margin,y);doc.setTextColor(0,0,0);doc.setFontSize(10);y+=rowH-2}}doc.setDrawColor(200);doc.line(margin,y+8,pageW-margin,y+8);y+=30;doc.setFont("helvetica","bold");doc.setFontSize(12);doc.text("Total",pageW-margin-140,y,{align:"right"});doc.text("$"+data.total.toFixed(2),pageW-margin,y,{align:"right"});doc.setFont("helvetica","normal");doc.setFontSize(9);doc.text("This is an estimate. Final pricing may vary based on item condition, special handling, or custom requests.",margin,pageH-margin,{maxWidth:pageW-margin*2});var safeMode=state.mode.toLowerCase();doc.save("psf-quote-"+safeMode+".pdf")}
+function init(){var tabFba=$("#tabFba"),tabFbm=$("#tabFbm"),toggleDetailsBtn=$("#toggleDetailsBtn"),resetBtn=$("#resetBtn"),downloadPdfBtn=$("#downloadPdfBtn"),summaryDetails=$("#summaryDetails");if(tabFba)tabFba.addEventListener("click",function(){setMode("FBA")});if(tabFbm)tabFbm.addEventListener("click",function(){setMode("FBM")});if(toggleDetailsBtn)toggleDetailsBtn.addEventListener("click",toggleDetails);if(resetBtn)resetBtn.addEventListener("click",resetAll);if(downloadPdfBtn)downloadPdfBtn.addEventListener("click",downloadPdf);setMode(DEFAULT_MODE);if(summaryDetails)summaryDetails.style.display=state.detailsOpen?"block":"none"}
+function ready(fn){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",fn)}else{fn()}}
+ready(function(){if(document.getElementById('psf-calculator-wrapper')){init()}});
+})();
+</script>
+</div>
